@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy Sample Instance') {
             steps {
                 script {
-                    /* TODO: update the server port */
+                    /* TODO: update the server port. */
                     Integer port = 3000
                     /* TODO: update the source folder */
                     String directory = "/var/www/jz_application"
