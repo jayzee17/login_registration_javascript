@@ -9,7 +9,7 @@ void setBuildStatus(String message, String state) {
   ]);
 } 
 
-/* TODO: update the IP of the server */
+/* TODO: update the IP of the server. */
 applicationIPAddress= "18.139.243.51"
 sourceBranch = ghprbSourceBranch
 targetBranch = ghprbTargetBranch
