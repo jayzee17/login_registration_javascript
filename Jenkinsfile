@@ -47,6 +47,11 @@ pipeline {
                         sshCommand remote: remote, command: "cd ${directory} && sudo git checkout ${sourceBranch}"
                         sshCommand remote: remote, command: "cd ${directory} && sudo git pull origin ${sourceBranch}"
 
+                        echo "HERE ------------->"
+                        echo "HERE ------------->"
+                        echo "HERE ------------->"
+                        echo "HERE ------------->"
+                      
                         withCredentials([file(credentialsId: staging_env, variable: 'yaml_file')]) {
                             sh 'mv \$yaml_file ./configs'
                             sshPut remote: remote, from: "./configs/sample.env.yml", into: "/var/www/tmp_server_files/"
