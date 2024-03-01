@@ -9,7 +9,7 @@ void setBuildStatus(String message, String state) {
   ]);
 } 
 
-/* TODO: update the IP of the server. */
+/* TODO: update the IP of the server */
 applicationIPAddress= "18.139.243.51"
 sourceBranch = ghprbSourceBranch
 targetBranch = ghprbTargetBranch
@@ -22,9 +22,9 @@ pipeline {
         stage('Deploy Sample Instance') {
             steps {
                 script {
-                    /* TODO: update the server port. */
+                    /* TODO: update the server port */
                     Integer port = 3000
-                    /* TODO: update the source folder. */
+                    /* TODO: update the source folder */
                     String directory = "/var/www/jz_application"
                     String secret_helper = "secret_helper"
 
@@ -32,7 +32,7 @@ pipeline {
                     echo "directory is ${directory}"
                     echo "secret_helper is ${secret_helper}"
 
-                    /* TODO: update ssh-credentials to the sss credentials created in the jenkins. */
+                    /* TODO: update ssh-credentials to the sss credentials created in the jenkins */
                     withCredentials([sshUserPrivateKey(credentialsId: "ssh-credentials", keyFileVariable: 'SSH_KEY')]) {
                         def remote = [
                             name: 'ubuntu',
@@ -48,12 +48,15 @@ pipeline {
                         sshCommand remote: remote, command: "cd ${directory} && sudo git checkout ${sourceBranch}"
                         sshCommand remote: remote, command: "cd ${directory} && sudo git pull origin ${sourceBranch}"
 
-                        /* TODO: update secret_helper to the secret file uploaded in the jenkins */
+                        /* TODO: update secret_helper to the secret file uploaded in the jenkins.
+                            Create a tmp_server_files directory and run the command sudo chmod 777 tmp_server_files/
+                            to make it writable
+                        */
                         withCredentials([file(credentialsId: secret_helper, variable: 'yaml_file')]) {
                             sh 'mv \$yaml_file ./configs'
                             sshPut remote: remote, from: "./configs/sample.env.yml", into: "/var/www/tmp_server_files/"
                         }
-                      
+
                         sshCommand remote: remote, command: "sudo rm -rf ${directory}/configs/sample.env.yml"
                         sshCommand remote: remote, command: "sudo mv /var/www/tmp_server_files/sample.env.yml ${directory}/configs/"
                     }
