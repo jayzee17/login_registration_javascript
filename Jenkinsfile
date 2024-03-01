@@ -24,7 +24,7 @@ pipeline {
                 script {
                     /* TODO: update the server port. */
                     Integer port = 3000
-                    /* TODO: update the source folder */
+                    /* TODO: update the source folder. */
                     String directory = "/var/www/jz_application"
                     String secret_helper = "secret_helper"
 
