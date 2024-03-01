@@ -32,7 +32,7 @@ pipeline {
                     echo "directory is ${directory}"
                     echo "secret_helper is ${secret_helper}"
 
-                    /* TODO: update ssh-credentials to the sss credentials created in the jenkins */
+                    /* TODO: update ssh-credentials to the sss credentials created in the jenkins. */
                     withCredentials([sshUserPrivateKey(credentialsId: "ssh-credentials", keyFileVariable: 'SSH_KEY')]) {
                         def remote = [
                             name: 'ubuntu',
