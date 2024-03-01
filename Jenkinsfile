@@ -48,7 +48,7 @@ pipeline {
                         sshCommand remote: remote, command: "cd ${directory} && sudo git checkout ${sourceBranch}"
                         sshCommand remote: remote, command: "cd ${directory} && sudo git pull origin ${sourceBranch}"
 
-                        /* TODO: update secret_helper to the secret file uploaded in the jenkins */
+                        /* TODO: update secret_helper to the secret file uploaded in the jenkins 
                         withCredentials([file(credentialsId: secret_helper, variable: 'yaml_file')]) {
                             sh 'mv \$yaml_file ./configs'
                             sshPut remote: remote, from: "./configs/sample.env.yml", into: "/var/www/tmp_server_files/"
@@ -56,6 +56,8 @@ pipeline {
 
                         sshCommand remote: remote, command: "sudo rm -rf ${directory}/configs/sample.env.yml"
                         sshCommand remote: remote, command: "sudo mv /var/www/tmp_server_files/sample.env.yml ${directory}/configs/"
+
+                        */
                     }
 
                     echo currentBuild.result
