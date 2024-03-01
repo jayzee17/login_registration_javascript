@@ -1,6 +1,7 @@
 void setBuildStatus(String message, String state) {
   step([
       $class: "GitHubCommitStatusSetter",
+      /* TODO: update the github repository link */
       reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/jayzee17/login_registration_javascript.git"],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
@@ -8,6 +9,7 @@ void setBuildStatus(String message, String state) {
   ]);
 } 
 
+/* TODO: update the IP of the server */
 applicationIPAddress= "18.139.243.51"
 sourceBranch = ghprbSourceBranch
 targetBranch = ghprbTargetBranch
@@ -15,20 +17,20 @@ targetBranch = ghprbTargetBranch
 pipeline {
     agent any
     //tools { nodejs "NodeJS" }
-  // /////test editing this filessss
     
     stages {
         stage('Deploy Sample Instance') {
             steps {
                 script {
+                    /* TODO: update the server port */
                     Integer port = 3000
-                    String directory = "/var/www/devops_training"
+                    /* TODO: update the source folder */
+                    String directory = "/var/www/jz_application"
                     String staging_env = "staging_env"
 
                     echo "port is ${port}"
                     echo "directory is ${directory}"
                     echo "staging_env is ${staging_env}"
-                  
 
                     withCredentials([sshUserPrivateKey(credentialsId: "ssh-credentials", keyFileVariable: 'SSH_KEY')]) {
                         def remote = [
