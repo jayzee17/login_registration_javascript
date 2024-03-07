@@ -22,11 +22,11 @@ pipeline {
                 script {
                     Integer port = 8080
                     String directory = "/var/www/devops-training"
-                    String staging_env = "staging_env"
+                    String secret_helper = "secret_helper"
 
                     echo "port is ${port}"
                     echo "directory is ${directory}"
-                    echo "staging_env is ${staging_env}"
+                    echo "secret_helper is ${secret_helper}"
                   
 
                     withCredentials([sshUserPrivateKey(credentialsId: "ssh-credentials", keyFileVariable: 'SSH_KEY')]) {
