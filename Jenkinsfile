@@ -1,14 +1,14 @@
 void setBuildStatus(String message, String state) {
   step([
       $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/x24padua22/login_registration_javascript.git"],
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/jayzee17/login_registration_javascript.git"],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
   ]);
 } 
 
-applicationIPAddress= "13.250.220.14"
+applicationIPAddress= "13.215.91.226"
 sourceBranch = ghprbSourceBranch
 targetBranch = ghprbTargetBranch
 
@@ -20,8 +20,8 @@ pipeline {
         stage('Deploy Sample Instance') {
             steps {
                 script {
-                    Integer port = 3000
-                    String directory = "/var/www/sample_login"
+                    Integer port = 8080
+                    String directory = "/var/www/devops-training"
                     String staging_env = "staging_env"
 
                     echo "port is ${port}"
@@ -29,7 +29,7 @@ pipeline {
                     echo "staging_env is ${staging_env}"
                   
 
-                    withCredentials([sshUserPrivateKey(credentialsId: "sshadmin", keyFileVariable: 'SSH_KEY')]) {
+                    withCredentials([sshUserPrivateKey(credentialsId: "ssh-credentials", keyFileVariable: 'SSH_KEY')]) {
                         def remote = [
                             name: 'ubuntu',
                             port: 22,
@@ -44,7 +44,7 @@ pipeline {
                         sshCommand remote: remote, command: "cd ${directory} && sudo git checkout ${sourceBranch}"
                         sshCommand remote: remote, command: "cd ${directory} && sudo git pull origin ${sourceBranch}"
 
-                        withCredentials([file(credentialsId: staging_env, variable: 'yaml_file')]) {
+                        withCredentials([file(credentialsId: secret_helper, variable: 'yaml_file')]) {
                             sh 'mv \$yaml_file ./configs'
                             sshPut remote: remote, from: "./configs/sample.env.yml", into: "/var/www/tmp_server_files/"
                         }
